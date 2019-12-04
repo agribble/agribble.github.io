@@ -94,7 +94,6 @@ function initializeCP()
 	
 	cpInit();
 	initialized = true;
-	cp.movie.play(); 
 	if(isLivePreview() === true)
 	{	
 		cp.previewFolder = window.location.href.split("\/")[4];
@@ -139,7 +138,7 @@ function initializeCP()
 							lCSSLoaded = true;
 							constructDIVs();
 						});
-						var lJSFiles = [  'assets/js/jquery-3.3.1.min.js','assets/js/CPM.js','../_js_libs/cgee-timeout.js' ];
+						var lJSFiles = [  'assets/js/jquery-3.3.1.min.js','assets/js/CPM.js','../js_libs/cgee-timeout.js' ];
 						cpXHRJSLoader.js(lJSFiles,function()
 						{
 							//console.log("js loaded");

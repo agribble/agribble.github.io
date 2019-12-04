@@ -35,6 +35,10 @@ function createLocalStorageObject(){
 
 createLocalStorageObject()
 
+
+
+
+
 function incrementLifetimeStats(whichStat) {
     var theItem = oysterStatsObject[whichStat];
     if(theItem != undefined) {
@@ -95,7 +99,7 @@ function killKeypadTimer(){
 function checkKeypadTimer(){
     keypadTime ++; 
     //add one to keypad timer
-         console.log(keypadTime);
+        // console.log(keypadTime);
     if(keypadTime >= 60 ){
         //one minute or more has passed on this screen; return to main menu
         killKeypadTimer();

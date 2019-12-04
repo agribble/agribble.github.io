@@ -96,17 +96,18 @@ button::-moz-focus-inner {
 */
 #words {
   display: inline-block;
-  max-width: 30rem;
+  max-width: 10rem;
   padding: 1em;
   list-style-type: none;
   text-align: left;
   background-color: white;
-  margin-left: 100px;
+  margin-left: 300px;
   
 
 }
 input[class="word"]{
   cursor:default;
+  max-width: 400px;
  
  }
 
@@ -120,12 +121,14 @@ input[class="word"]{
 }
 
 #words li {
+  
   padding: 3px 0;
   font: 1em sans-serif;
 }
 
 /* indicates that the word has been found */
 .wordFound {
+  max-width: 400px;
   color: green;
   /* font-weight: bold; */
   text-decoration: line-through
