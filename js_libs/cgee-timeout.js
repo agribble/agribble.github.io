@@ -100,7 +100,7 @@ function checkKeypadTimer(){
     keypadTime ++; 
     //add one to keypad timer
         // console.log(keypadTime);
-    if(keypadTime >= 60 ){
+    if(keypadTime >= 90 ){
         //one minute or more has passed on this screen; return to main menu
         killKeypadTimer();
         cpCmndGotoSlideAndResume = 0

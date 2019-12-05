@@ -104,7 +104,7 @@ function killKeypadTimer(){
 function checkKeypadTimer(){
     keypadTime ++; 
     //add one to keypad timer
-    if(keypadTime >= 60 ){
+    if(keypadTime >= 90 ){
         //one minute or more has passed on this screen; return to main menu
         cpCmndGotoSlideAndResume = 0
         //delete keypad timer
