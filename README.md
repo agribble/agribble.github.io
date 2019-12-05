@@ -18,8 +18,12 @@ Syntax highlighted code block
 - Bulleted
 - List
 
-1. Numbered
-2. List
+1.  put this on line 141 of index.html:
+var lJSFiles = [  'assets/js/jquery-3.3.1.min.js','assets/js/CPM.js','../js_libs/cgee-timeout.js' ];
+2. add to line 97 of index.html
+cp.movie.play();
+3. move file CPM.js int to folder:
+main/assets/js/
 
 **Bold** and _Italic_ and `Code` text
 
