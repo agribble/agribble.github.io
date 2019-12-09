@@ -110,9 +110,10 @@
       selectedSquares.push(this);
       curWord = $(this).text();
     };
-    
-    
+
+    //AMG added 12/8/2019
     window.oncontextmenu = function(event) {
+      //prevent context menu from appearing on touch devices
       event.preventDefault();
       event.stopPropagation();
       return false;
