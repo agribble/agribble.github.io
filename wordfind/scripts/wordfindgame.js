@@ -111,6 +111,14 @@
       curWord = $(this).text();
     };
     
+    
+    window.oncontextmenu = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+ };
+
+
     var touchMove = function(e) {
       var xPos = e.originalEvent.touches[0].pageX;
       var yPos = e.originalEvent.touches[0].pageY;
