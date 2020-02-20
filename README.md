@@ -19,7 +19,7 @@ Syntax highlighted code block
 - List
 
 1.  put this on line 141 of index.html:
-var lJSFiles = [  'assets/js/jquery-3.3.1.min.js','assets/js/CPM.js','../js_libs/cgee-timeout.js' ];
+var lJSFiles = [  'assets/js/jquery-3.3.1.min.js','assets/js/CPM.js','../js_libs/cgee-timeout.js','../js_libs/jquery.touchSwipe.min.js','../js_libs/oyster-swipe-script.js'];
 2. add to line 97 of index.html
 cp.movie.play();
 3. move file CPM.js int to folder:
