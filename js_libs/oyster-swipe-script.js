@@ -1,10 +1,13 @@
 var okToSwipeBack = false;
 var okToSwipeNext = false;
- $(function() {      
+var touchSwipeSetup = false;
+
+ function setupTouchSwipe()  {
 
       //Enable swiping...
 
-      $("#div_Slide").swipe( {
+      if(touchSwipeSetup == false) { 
+        $("#div_Slide").swipe( {
 
         //Generic swipe handler for all directions
 
@@ -35,6 +38,8 @@ var okToSwipeNext = false;
 
       });
 console.log("touch events enabled for CGEE Oyster");
-    });
+touchSwipeSetup = true;
+      }
+    }
 
   
