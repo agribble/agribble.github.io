@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Center for Global Environmental Education: Too Rich for Gulf Waters</title>
+<meta name="description" content="Description needed" />
+<meta name="keywords" content="Keywords needed" />
+<link rel="stylesheet" type="text/css" href="style.css">
+<style type="text/css" media="all">
+@import url(http://fonts.googleapis.com/css?family=Boogaloo);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
+@import url(http://fonts.googleapis.com/css?family=Raleway:200,300,400,700);
+</style>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.ui.touch-punch.js"></script>
+<script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="js/jsKeyboard.js"></script>
+<script type="text/javascript" src="js/admin.js"></script>
+<script type="text/javascript">
+<!--
+var isApple=navigator.userAgent.match(/(iPhone|iPod|iPad|Safari)/);
+var isMobile=navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|WebOS)/);
+var isMobileSmall=navigator.userAgent.match(/(iPhone|iPod|Android|BlackBerry)/);
+var isiPhone=navigator.userAgent.match(/(iPhone)/);
+
+var addHTML="";
+var anim_done=false;
+var animation;
+var browserOK=true;
+var currDivContainer='';
+var currFrame=7;
+var currMap=0;
+var currNums=["",0,0];
+var currPercent=["",100,100];
+var currTime=0;
+var entered_module=[""];
+var i=0;
+var in_motion=false;
+var isFF=false;
+var isIE=false;
+var isSafari=false;
+var j=0;
+var k=0;
+var map_clicked=["",0,0,0,0,0,0,0];
+var next_avail=true;
+var object_id;
+var preloadFlag=false;
+var tempHTML="";
+var timer;
+var timer_paused=false;
+var versionNum=0;
+var vid_listener=false;
+	
+if ((navigator.appName=='Microsoft Internet Explorer' || navigator.appName=='Netscape') && navigator.userAgent.toLowerCase().indexOf('firefox')==-1 && navigator.userAgent.indexOf('Safari')==-1)
+	{
+	if (navigator.appName=='Microsoft Internet Explorer')
+		{
+		var ua=navigator.userAgent;
+		var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+		if (re.exec(ua)!=null) {versionNum=parseFloat(RegExp.$1);}
+		}
+	else
+		{
+		var ua=navigator.userAgent;
+		var re=new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+		if (re.exec(ua)!=null) {versionNum=parseFloat(RegExp.$1);}
+		}
+	if (versionNum<9) {browserOK=false;}
+	isIE=true;
+  	}
+	
+else if (navigator.userAgent.toLowerCase().indexOf('firefox')!=-1)
+	{
+	isFF=true;
+	versionNum=parseFloat(navigator.appVersion);
+    if (versionNum<3.5){browserOK=false;}
+	}
+	
+else if (navigator.userAgent.indexOf('Safari')!=-1)
+	{
+	isSafari=true;
+	versionNum=parseFloat(navigator.appVersion);
+	if (versionNum<3.1){browserOK=false;}
+	}
+
+
+function changeImages()
+	{
+	if (document.images && preloadFlag==true)
+		{
+		for (i=0; i<changeImages.arguments.length; i+=2) {document[changeImages.arguments[i]].src=changeImages.arguments[i+1];}
+		}
+	}
+
+function newImage(arg)
+	{
+	if (document.images)
+		{
+		rslt=new Image();
+		rslt.src=arg;
+		return rslt;
+		}
+	}
+	
+function preloadImages()
+	{
+	if (document.images)
+		{
+		btn_next_over1=newImage("images/btn_next_over1.png");
+		btn_menu_over1=newImage("images/btn_menu_over1.png");
+		preloadFlag=true;
+		}
+	}
+
+function changeOpacity(object,num)
+	{
+	object=document.getElementById(object).style;
+	if (object)
+		{
+		object.opacity=(num/100); 
+  	  	object.MozOpacity=(num/100); 
+   		object.KhtmlOpacity=(num/100); 
+   		object.filter="alpha(opacity="+num+")";
+		}
+	}
+	
+function changeCSS(object,styleName) {if (document.getElementById) {document.getElementById(object).className=styleName;}}
+	
+function playAudio(object_id)
+	{
+	if (isMobile==null)
+		{
+		if (document.getElementById(object_id).currentTime) {document.getElementById(object_id).currentTime=0;}
+		if (currFrame<=1) {document.getElementById(object_id).volume=currPercent[2]/100;}
+		else {document.getElementById(object_id).volume=currPercent[1]/100;}
+		document.getElementById(object_id).play();
+		}
+	else
+		{
+		window["vo_"+object_id]=document.getElementById(object_id);
+		if (window["vo_"+object_id] && window["vo_"+object_id] instanceof Audio)
+			{
+   	 		if (window["vo_"+object_id].currentTime) {window["vo_"+object_id].currentTime=0;}
+			if (currFrame<=1) {window["vo_"+object_id].volume=currPercent[2]/100;}
+			else {window["vo_"+object_id].volume=currPercent[1]/100;}
+    		window["vo_"+object_id].play();
+  			}
+		}
+	}
+	
+function stopAllAudio()
+	{
+	stopAudio("watershed_intro1");
+	}
+	
+function stopAudio(object_id)
+	{
+	if (isMobile==null)
+		{
+		document.getElementById(object_id).pause();
+		if (document.getElementById(object_id).currentTime) {document.getElementById(object_id).currentTime=0;}
+		}
+	else
+		{
+		window["vo_"+object_id]=document.getElementById(object_id);
+  		if (window["vo_"+object_id] && window["vo_"+object_id] instanceof Audio)
+			{
+			window["vo_"+object_id].pause();
+   	 		if (window["vo_"+object_id].currentTime) {window["vo_"+object_id].currentTime=0;}
+			}
+		}
+	}
+function getVideo(file_name,div_container,width,height,mov_included,use_controller,replay)
+	{
+	addHTML='';
+	if (replay==true) {addHTML=' loop="loop"';}
+	if (use_controller==true)
+		{
+		if (isMobile!=null) {tempHTML='<video id="vid_container" width="'+width+'" height="'+height+'" controls controlsList="nofullscreen nodownload" disablepictureinpicture>';}
+		else {tempHTML='<video id="vid_container" width="'+width+'" height="'+height+'" controls controlsList="nofullscreen nodownload" disablepictureinpicture autoplay="autoplay">';}
+		}
+	else
+		{
+		if (isMobile!=null) {tempHTML='<video id="vid_container" width="'+width+'" height="'+height+'"'+addHTML+'>';}
+		else {tempHTML='<video id="vid_container" width="'+width+'" height="'+height+'" autoplay="autoplay"'+addHTML+'>';}
+		}
+	tempHTML+='	<source src="video/'+file_name+'.webm" type="video/webm" />';
+	tempHTML+='	<source src="video/'+file_name+'.mp4" type="video/mp4" />';
+	if (mov_included==true)
+		{
+		tempHTML+='	<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'">';
+		tempHTML+='		<param name="src" value="video/'+file_name+'.mov" />';
+		if (use_controller==true) {tempHTML+='		<param name="controller" value="true" />';}
+		else {tempHTML+='		<param name="controller" value="false" />';}
+		if (isMobile!=null) {/*tempHTML+=' <param name="autoplay" value="autoplay" />';*/}
+		else {tempHTML+='		<param name="autoplay" value="autoplay" />';}
+		tempHTML+='		<param name="wmode" value="transparent" />';
+		tempHTML+='		<param name="loop" value="'+replay+'" />';
+		<!--[if !IE]>-->
+		tempHTML+='		<object type="video/quicktime" data="video/'+file_name+'.mov" width="'+width+'" height="'+height+'">';
+		tempHTML+='			<param name="autoplay" value="autoplay" />';
+		if (use_controller==true) {tempHTML+='		<param name="controller" value="true" />';}
+		else {tempHTML+='		<param name="controller" value="false" />';}
+		tempHTML+='			<param name="wmode" value="transparent" />';
+		tempHTML+='			<param name="loop" value="'+replay+'" />';
+		tempHTML+='		</object>';
+		<!--<![endif]-->
+		tempHTML+='	</object>';
+		}
+	tempHTML+='This page requires a mp4 or webm plugin.';
+	tempHTML+='</video>';
+	document.getElementById(div_container).innerHTML=tempHTML;
+	if (currFrame==1) {document.getElementById('vid_container').volume=currPercent[2]/100;}
+	else {document.getElementById('vid_container').volume=currPercent[1]/100;}
+	if (currFrame>=5)
+		{
+		currDivContainer=div_container;
+		document.getElementById('vid_container').addEventListener('ended',vidDone,false);
+		document.getElementById('vid_container').addEventListener('play',vidPlay,false);
+		document.getElementById('vid_container').addEventListener('pause',vidPause,false);
+		document.getElementById('vid_container').addEventListener('seeked',vidSeeked,false);
+		vid_listener=true;
+		}
+	}
+	
+function vidPlay()
+	{
+	currTime=0;
+	timer_paused=true;
+	}
+	
+function vidPause()
+	{
+	currTime=0;
+	timer_paused=false;
+	}
+	
+function vidSeeked()
+	{
+	currTime=0;
+	timer_paused=true;
+	}	
+	
+function moduleNext()
+	{
+	if (next_avail==true)
+		{
+		nextOut();
+        removeVidListeners();
+		playAudio("watershed_intro1");
+		document.getElementById('watershed_container').style.display="none";
+		document.getElementById('title_module1').style.color='#5c2e14';
+		document.getElementById('title_module2').style.color='#ffffff';
+		document.getElementById('watershed_map').style.display="block";
+		document.getElementById('module_instrux').innerHTML='Click on the map to locate the major watersheds in the Continental United States.';
+        document.getElementById('module_btn1').style.display="none";
+            
+            
+		}
+	}
+	
+function nextOver()
+	{
+	currTime=0;
+	if (next_avail==true) {changeImages('btn_next1','images/btn_next_over1.png');}
+	}
+function nextOut() {currTime=0; changeImages('btn_next1','images/btn_next1.png');}
+	
+function getVids(num)
+	{
+	currTime=0;
+	if (vid_listener==true) {removeVidListeners();}
+	timer_paused=true;
+	if (num==1)
+		{
+		changeImages('btn_nutrients1','images/btn_nutrients_over1.png');
+		changeImages('btn_eutro1','images/btn_eutro1.png');
+		getVideo('Nutrients1','vids_container',430,240,false,true,false);
+		}
+	else
+		{
+		changeImages('btn_nutrients1','images/btn_nutrients1.png');
+		changeImages('btn_eutro1','images/btn_eutro_over1.png');
+		getVideo('Eutrophication1','vids_container',430,240,false,true,false);
+		}
+	}
+	
+function removeVidListeners()
+	{
+	if (vid_listener==true)
+		{
+		document.getElementById('vid_container').removeEventListener('ended',vidDone,false);
+		document.getElementById('vid_container').removeEventListener('play',vidPlay,false);
+		document.getElementById('vid_container').removeEventListener('pause',vidPause,false);
+		document.getElementById('vid_container').removeEventListener('seeked',vidSeeked,false);
+		document.getElementById(currDivContainer).innerHTML='';
+		vid_listener=false;
+		}
+	}
+	
+function mapOver(num)
+	{
+	currTime=0;
+	if (in_motion==false) {document.getElementById('map_highlight'+num).style.visibility="visible";}
+	}
+	
+function mapOut(num)
+	{
+	currTime=0;
+	if (in_motion==false)
+		{
+		if (map_clicked[num]==0) {document.getElementById('map_highlight'+num).style.visibility="hidden";}
+		}
+	}
+	
+function mapClicked(num)
+	{
+	currTime=0;
+	if (in_motion==false)
+		{
+		in_motion=true;
+		currMap=num;
+		map_clicked[num]=1;
+		document.getElementById('map_highlight'+num).style.visibility="visible";
+		document.getElementById('map_overlay'+num).style.visibility="visible";
+		document.getElementById('map_text'+num).style.visibility="visible";
+		document.getElementById('map_text'+num+'_1').style.display="block";
+		currNums[1]=0;
+		if (num==1)
+			{
+			document.getElementById('map_animation1').style.width=currNums[1]+"px";
+			document.getElementById('map_animation1').style.marginLeft=Math.round(204-currNums[1])+"px";
+			}
+		else if (num==2) {document.getElementById('map_animation2').style.height=currNums[1]+"px";}
+		else if (num==3) {document.getElementById('map_animation3').style.height=currNums[1]+"px";}
+		else if (num==4)
+			{
+			document.getElementById('map_animation4').style.height=currNums[1]+"px";
+			document.getElementById('map_text4a').style.visibility="visible";
+			document.getElementById('map_text4a_1').style.display="block";
+			}
+		else if (num==5 || num==6) {document.getElementById('map_animation'+currMap).style.width=currNums[1]+"px";}
+		else {document.getElementById('map_animation7').style.height=currNums[1]+"px";}
+		anim_done=false;
+		animation=setInterval("animateMap()",20);
+		}
+        
+        var maptext1 = $('#map_text1_1').css('display');
+        var maptext2 = $('#map_text2_1').css('display');
+        var maptext3 = $('#map_text3_1').css('display');
+        var maptext4 = $('#map_text4_1').css('display');
+        var maptext4a = $('#map_text4a_1').css('display');
+        var maptext5 = $('#map_text5_1').css('display');
+        var maptext6 = $('#map_text6_1').css('display');
+        var maptext7 = $('#map_text7_1').css('display');
+
+        
+        if ((maptext1 == 'block') && (maptext2 == 'block') && (maptext3 == 'block') &&
+            (maptext4 == 'block') && (maptext4a == 'block') && (maptext5 == 'block') &&
+            (maptext6 == 'block') && (maptext7 == 'block')) {
+            
+            document.getElementById("module_instrux").innerHTML = "Module Complete—thanks for exploring this important information!";
+        }
+    
+	}
+	
+function animateMap()
+	{
+	currTime=0;
+	currNums[1]+=10;
+	if (currMap==1)
+		{
+		if (currNums[1]>=203)
+			{
+			anim_done=true;
+			currNums[1]=203;
+			}
+		document.getElementById('map_animation1').style.width=currNums[1]+"px";
+		document.getElementById('map_animation1').style.marginLeft=Math.round(203-currNums[1])+"px";
+		}
+	else if (currMap==2)
+		{
+		if (currNums[1]>=261)
+			{
+			anim_done=true;
+			currNums[1]=261;
+			}
+		document.getElementById('map_animation2').style.height=currNums[1]+"px";
+		}
+	else if (currMap==3)
+		{
+		if (currNums[1]>=429)
+			{
+			anim_done=true;
+			currNums[1]=429;
+			}
+		document.getElementById('map_animation3').style.height=currNums[1]+"px";
+		}
+	else if (currMap==4)
+		{
+		if (currNums[1]>=300)
+			{
+			anim_done=true;
+			currNums[1]=300;
+			}
+		document.getElementById('map_animation4').style.height=currNums[1]+"px";
+		}
+	else if (currMap==5)
+		{
+		if (currNums[1]>=274)
+			{
+			anim_done=true;
+			currNums[1]=274;
+			}
+		document.getElementById('map_animation5').style.width=currNums[1]+"px";
+		}
+	else if (currMap==6)
+		{
+		if (currNums[1]>=218)
+			{
+			anim_done=true;
+			currNums[1]=218;
+			}
+		document.getElementById('map_animation6').style.width=currNums[1]+"px";
+		}
+	else
+		{
+		if (currNums[1]>=142)
+			{
+			anim_done=true;
+			currNums[1]=142;
+			}
+		document.getElementById('map_animation7').style.height=currNums[1]+"px";
+		document.getElementById('map_animation7').style.marginTop=Math.round(142-currNums[1])+"px";
+		}
+	if (anim_done==true)
+		{
+		clearInterval(animation);
+		in_motion=false;
+		}
+	}
+	
+function vidDone()
+	{
+	currTime=0;
+
+	}
+	    
+window.onload=displayFrame;
+
+function displayFrame(){
+	next_avail=true;
+    changeOpacity("module_next1",100);
+    document.getElementById("module_next1").style.display="blok";
+    document.getElementById("module_nav").style.visibility="visible";
+    document.getElementById("content7").style.display="block";
+    document.getElementById('frame7').style.display="block";
+    document.getElementById("module_nav").style.display="block";
+    document.getElementById("frame_title").style.display="block";
+    document.getElementById("title_module1").innerHTML='Watershed Address';
+    document.getElementById("title_module2").innerHTML='Watershed Address';
+    document.getElementById('title_module1').style.fontSize=45+'px';
+    document.getElementById('title_module2').style.fontSize=45+'px';
+    document.getElementById('title_module1').style.color='#73a6d6';
+    document.getElementById('title_module2').style.color='#d9434f';
+    document.getElementById('module_btn1').style.display="block";
+
+    nextOut();
+    
+    document.getElementById('watershed_container').style.display="block";
+    map_clicked=["",0,0,0,0,0,0,0];
+    
+    for (i=1; i<8; i++)
+        {
+            document.getElementById('map_highlight'+i).style.visibility="hidden";
+			document.getElementById('map_overlay'+i).style.visibility="hidden";
+			document.getElementById('map_text'+i+'_1').style.display="none";
+			document.getElementById('map_text'+i).style.visibility="hidden";
+        }
+			document.getElementById('map_text4a').style.visibility="hidden";
+			document.getElementById('map_text4a_1').style.display="none";
+			getVideo('watershed2_intro1','watershed_container',598,400,false,true,false);
+			document.getElementById('watershed_map').style.display="none";
+            document.getElementById('module_instrux').innerHTML='After viewing the video, click the Next button to continue.';
+    
+
+
+}
+    
+</script>
+</head>
+<body id="main_body">
+<div id="content">
+	<noscript><div class="raleway18px22pxWhite" style="text-align:center; padding-top:70px;">Please turn JavaScript on in your browser to view this activity!</div></noscript>
+	<div id="frame0" class="frame">
+		<div class="raleway18px22pxWhite" style="text-align:center; padding-top:70px; color:#000000;">Please upgrade or use a different browser to view this website.</div>
+	</div>
+	
+	<div id="frame7" class="frame">
+        <div id="header"></div>
+        <div id="frame_title">
+		  <div id="title_module1"></div>
+		  <div id="title_module2"></div>
+		  <div class="clearL"></div>
+	   </div>
+		<div id="content7">
+			<div id="watershed_container"></div>
+			<div id="watershed_map">
+				<div class="floatPosL" style="width:1024px; height:550px; margin:-7px 0px 0px -42px; background-color:#6da4d7;"><img src="images/us_map.jpg" width="1024" height="550" alt="U.S. Map" /></div>
+				<div id="map_highlighted" class="map_dim">
+					<div id="map_highlight1" class="floatPosL" style="width:135px; height:395px; visibility:hidden; margin:0px 0px 143px 151px;"><img src="images/west_coast.png" width="135" height="395" alt="West Coast, U.S." /></div>
+					<div class="clearL"></div>
+					<div id="map_highlight2" class="floatPosL" style="width:189px; height:260px; visibility:hidden; margin:-376px 0px 0px 154px;"><img src="images/mo_colorado.png" width="189" height="260" alt="Colorado" /></div>
+					<div id="map_highlight3" class="floatPosL" style="width:508px; height:418px; visibility:hidden; margin:-503px 0px 0px 237px;"><img src="images/mississippi.png" width="508" height="418" alt="Central U.S." /></div>
+					<div id="map_highlight4" class="floatPosL" style="width:473px; height:300px; visibility:hidden; margin:-288px 0px 0px 276px;"><img src="images/mo_gulf.png" width="473" height="300" alt="Gulf" /></div>
+					<div id="map_highlight5" class="floatPosL" style="width:272px; height:200px; visibility:hidden; margin:-516px 0px 0px 510px;"><img src="images/great_lakes.png" width="272" height="200" alt="Great Lakes, U.S." /></div>
+					<div id="map_highlight6" class="floatPosL" style="width:128px; height:488px; visibility:hidden; margin:-550px 0px 0px 657px;"><img src="images/east_coast.png" width="128" height="488" alt="East Coast, U.S." /></div>
+					<div id="map_highlight7" class="floatPosL" style="width:514px; height:141px; visibility:hidden; margin:-550px 0px 0px 230px;"><img src="images/hudson.png" width="514" height="141" alt="Hudson" /></div>
+					<div class="clearL"></div>
+				</div>
+				<div class="map_dim">
+					<div id="map_overlay1" class="floatPosL" style="width:203px; height:393px; margin:0px 0px 146px 84px; visibility:hidden; overflow:hidden;">
+						<div id="map_animation1" class="floatPosL" style="width:203px; height:393px; overflow:hidden; background:transparent url(images/map_overlay1.png) no-repeat; background-position:top right;"></div>
+						<div class="clearL"></div><!--right to left: width: 1 to 393-->
+					</div>
+					<div class="clearL"></div>
+					<div id="map_overlay2" class="floatPosL" style="width:190px; height:261px; visibility:hidden; margin:-378px 0px 0px 153px;">
+						<div id="map_animation2" class="floatPosL" style="width:190px; height:261px; overflow:hidden;"><img src="images/map_overlay2.png" width="190" height="261" alt="" /></div>
+						<div class="clearL"></div><!--top to bottom: height:1 to 261-->
+					</div>
+					<div id="map_overlay3" class="floatPosL" style="width:508px; height:429px; visibility:hidden; margin:-505px 0px 0px 237px;">
+						<div id="map_animation3" class="floatPosL" style="width:508px; height:429px; overflow:hidden;"><img src="images/map_overlay3.png" width="508" height="429" alt="" /></div>
+						<div class="clearL"></div><!--top to bottom: height:1 to 429-->
+					</div>
+					<div id="map_overlay4" class="floatPosL" style="width:474px; height:300px; visibility:hidden; margin:-289px 0px 0px 275px;">
+						<div id="map_animation4" class="floatPosL" style="width:474px; height:300px; overflow:hidden;"><img src="images/map_overlay4.png" width="474" height="300" alt="" /></div>
+						<div class="clearL"></div><!--top to bottom: height:1 to 300-->
+					</div>
+					<div id="map_overlay5" class="floatPosL" style="width:274px; height:201px; visibility:hidden; margin:-516px 0px 0px 509px;">
+						<div id="map_animation5" class="floatPosL" style="width:274px; height:201px; overflow:hidden;"><img src="images/map_overlay5.png" width="274" height="201" alt="" /></div>
+						<div class="clearL"></div><!--left to right: width:1 to 274-->
+					</div>
+					<div id="map_overlay6" class="floatPosL" style="width:218px; height:489px; visibility:hidden; margin:-550px 0px 0px 657px;">
+						<div id="map_animation6" class="floatPosL" style="width:218px; height:489px; overflow:hidden;"><img src="images/map_overlay6.png" width="218" height="489" alt="" /></div>
+						<div class="clearL"></div><!--left to right width:1 to 218-->
+					</div>
+					<div id="map_overlay7" class="floatPosL" style="width:514px; height:142px; visibility:hidden; overflow:hidden; margin:-550px 0px 0px 230px;">
+						<div id="map_animation7" class="floatPosL" style="width:514px; height:142px; overflow:hidden; background:transparent url(images/map_overlay7.png) no-repeat; background-position:bottom left;"></div>
+						<div class="clearL"></div><!--bottom to top: 142-1-->
+					</div>
+					<div class="clearL"></div>
+				</div>
+				<div class="map_dim">
+					<div id="map_text1" class="map_text" style="margin:212px 0px 258px 32px;">
+						<div id="map_text1_1" class="map_font">West Coast</div>
+					</div>
+					<div class="clearL"></div>
+					<div id="map_text2" class="map_text" style="margin:-213px 0px 0px 107px;">
+						<div id="map_text2_1" class="map_font">Colorado</div>
+					</div>
+					<div id="map_text3" class="map_text" style="margin:-318px 0px 0px 368px;">
+						<div id="map_text3_1" class="map_font">Mississippi<br />Watershed</div>
+					</div>
+					<div id="map_text4" class="map_text" style="margin:-123px 0px 0px 263px;">
+						<div id="map_text4_1" class="map_font">Gulf</div>
+					</div>
+					<div id="map_text4a" class="map_text" style="margin:-157px 0px 0px 495px;">
+						<div id="map_text4a_1" class="map_font">Gulf</div>
+					</div>
+					<div id="map_text5" class="map_text" style="margin:-435px 0px 0px 521px;">
+						<div id="map_text5_1" class="map_font">Great Lakes</div>
+					</div>
+					<div id="map_text6" class="map_text" style="margin:-263px 0px 0px 615px;">
+						<div id="map_text6_1" class="map_font">East<br />Coast</div>
+					</div>
+					<div id="map_text7" class="map_text" style="margin:-455px 0px 0px 342px;">
+						<div id="map_text7_1" class="map_font">Hudson Bay</div>
+					</div>
+					<div class="clearL"></div>
+				</div>
+				<div class="floatPosL" style="width:1024px; height:550px; margin:-550px 0px 0px -37px;">
+					<svg width="100%" height="100%" viewBox="0 0 1024 550" preserveAspectRatio="none">
+<!--West Coast-->
+<path onmouseover="mapOver(1); return false;" onmouseout="mapOut(1); return false;" onclick="mapClicked(1); return false;" ontouchend="mapClicked(1); return false;" class="map_path" d="M321.8,165.3v0.5l1.6-0.5H321.8 M228.4,422.7l17,33 c19.3,37,34.8,67.2,46.7,90.2v4h-48.9l-61.9-105.6l-74-147.3L99,83.2L97.6,0H277l1.3,6.3l0.4,1.9c0.5,1.1,0.9,2.3,1.1,3.6l0.9,6.9 l3.9,11.5c1.7,5.1,2.8,9,3.3,11.6l2.1,0.1l3.6-0.2c3.9,17.4,7.6,30,10.9,37.7c3.4,8.1,3.2,12.8-0.5,14.2c-0.1,1.5,0.3,2.8,1.2,3.7 c0.9,0.9,2.3,3.2,4,7.1c1.7,3.9,2.4,6.3,2.1,7.3l-0.9,2c-1.5,1.3-2.6,2.5-3.3,3.6c-1,1.6-2.3,2.4-3.8,2.4c-1.3,0-2.4-0.8-3.2-2.3 c-0.4-0.9-0.9-2.6-1.4-5.1c-1.1-5-2.9-7.5-5.2-7.5c-1.9,0-4.6,1.9-8,5.6c-3,3.3-4.5,5.3-4.5,5.9c0,4.4,1.1,9.7,3.3,15.9 c0.6,1.7,9.1,5.4,25.6,11l4.5,1.5c1.9,0.3,3.4,1,4.4,2l1.2,0.8c1.9,1.4,3.3,3.4,4.2,6.1c0.9,2.7,1.4,5,1.7,6.7l0.2,1.6 c-1.6,4.3-4.8,8.6-9.7,12.7c-3.9,3.3-10.6,5.8-20.2,7.6c-0.5,5.4-0.5,9.5,0,12.4c0.5,2.9-1.1,11.5-4.8,25.9l-6.7,25.8l-7.5,9.3 c-2.6,3.1-6.3,6.7-11.2,10.9c-4.9,4.1-8.4,6.7-10.5,7.8c-4.3-3.1-6.5-4.9-6.8-5.6c-0.3-0.7-2.3-2-5.8-4c-3.5-2-7.3,0.5-11.3,7.5 c-3.9,7-7.2,10.9-9.9,11.6c-2.5,0.7-3.3,7.4-2.2,20.2c6.3,30.5,4.7,45-4.8,43.5c5.3,6.5,5.9,10.7,1.8,12.6c-4.1,1.9-7,3.8-8.7,5.5 l-7.9,8.7l5.3,8.9c0.3,0.8,1.6,1.8,4,3c2.4,1.1,5.8,4.9,10.2,11.3C223.6,404.7,226.7,412.9,228.4,422.7z" />
+<!--Colorado-->
+<path onmouseover="mapOver(2); return false;" onmouseout="mapOut(2); return false;" onclick="mapClicked(2); return false;" ontouchend="mapClicked(2); return false;" class="map_path" d="M316.6,382.5c-2.7,4.7-9.3,9.8-20,15.2 c-13.9,7-23.9,11.9-30.2,14.7c-14.4,8.5-24.3,12.8-29.8,12.8c-2.8,0-5.5-0.8-8.2-2.4c-1.7-9.8-4.8-18-9.2-24.5 c-4.4-6.4-7.8-10.2-10.2-11.3c-2.4-1.2-3.7-2.2-4-3l-5.3-8.9l7.9-8.7c1.7-1.7,4.6-3.6,8.7-5.5c4.1-1.9,3.5-6.1-1.8-12.6 c9.5,1.5,11.1-12.9,4.8-43.5c-1.1-12.7-0.3-19.5,2.2-20.2c2.7-0.7,6-4.6,9.9-11.6c4-7,7.8-9.5,11.3-7.5c3.5,2,5.5,3.3,5.8,4 c0.3,0.7,2.5,2.5,6.8,5.6c2.1-1.1,5.6-3.7,10.5-7.8c4.9-4.2,8.6-7.8,11.2-10.9l7.5-9.3l6.7-25.8c3.7-14.4,5.3-23,4.8-25.9 c-0.5-2.9-0.5-7,0-12.4c9.5-1.8,16.3-4.3,20.2-7.6c4.9-4.1,8.1-8.4,9.7-12.7c2.8,3.7,7.1,11,13.1,22.2c-1.4,6.7,1,9.8,7.3,9.3 l11.6-0.7c1.4,0,2.3,7.5,2.8,22.5c0.5,15,3.2,22.5,8.3,22.5c6.8-9.6,11.6-10,14.5-1.2l-5.9,7.3c-4.4,2.7-9.4,5.9-15.2,9.6l-6.9,4.1 l-10.5,6.2c-4.1,2.6-7.2,5.1-9.3,7.4c-0.7,0.7-1.8,2.5-3.3,5.5l-4.5,8c0.3,1.1,1.5,2,3.4,2.7s5.7,2.3,11.5,4.9 c5.7,2.6,9.2,5.9,10.3,9.8c1.1,3.9,0.2,8.3-2.9,13.4c-2.3,2.1-5.8,6.9-10.6,14.7c-2.9,4.7-6.7,9.5-11.4,14.5 c-4.7,4.9-5,10.2-0.8,16.1c-5.3,4.7-8.5,9-9.6,13c-0.6,2.1-0.9,4.1-0.9,6v1.7L316.6,382.5" />
+<!--Mississippi-->
+<path onmouseover="mapOver(3); return false;" onmouseout="mapOut(3); return false;" onclick="mapClicked(3); return false;" ontouchend="mapClicked(3); return false;" class="map_path" d="M637.9,462l0.1,0.5v0.1L637.9,462 M570,119.7L570,119.7L570,119.7z M782.4,189.4c0.8,1.1,1.5,2.7,2.1,5c0.7,2.3-2.9,3.6-10.8,3.7c-4.7-1.1-7.7-0.5-9.2,1.7c-1.5,2.1-2.4,4.9-2.9,8.4 c-0.5,3.5,2,7.5,7.6,12l-3.7,5.8c-2.2,5.7-4.1,14.4-5.7,25.7c-1.5,11.3-4.1,19.9-7.6,25.7c0.3,7.3,2,12.1,5.3,14.6 c-8.5,8.3-14.9,14.4-19,18.1c-4.1,3.6-6.8,10-8.3,19.2l-7,3.7c-1.9,1-4.1,1.9-6.6,2.8c-2.5,0.9-4.3,2-5.3,3.2l-2.1,2.5 c-0.5,0.5-1.3,1.8-2.5,3.9l-2.6,0.2c-0.5-0.1-3.9-2.7-10.2-7.8c-2.3,4.4-5,7.7-8.1,10c-3.1,2.3-5.1,3.9-5.9,4.8 c-0.9,0.9-1.9,1.6-3,2.1c-1.2,0.5-6.5,1.2-16.1,2.1c-9.5,0.9-14.7,0.7-15.4-0.8c-0.6-1.4-2.9-2.9-6.8-4.5c-3.9-1.6-6.5,2.8-7.8,13.3 c-2.2,6.5-4.1,11.5-5.6,14.9c-0.5,1.1-1.7,3-3.8,5.8c-2.5,3.5-4.4,6.4-5.7,8.5c-4.9,8.2-7.4,16.6-7.4,24.9c0,4.7,4,10.7,12.1,18.1 c2.9,2.5,5.8,4.9,8.9,7.1l2.2,1.5l2.7,1.6c0.3,0.1,1.6,5.3,4.1,15.5l-0.9,0.1c-29,0.7-56.8-1.8-83.4-7.3l-0.5-0.4l-0.1-0.1l-0.3-0.9 V454l-0.2-1.5c0.7-1.7,1.1-4,1.4-7l0.2-5.9l0.4-1.1c1.5-4.8,2.3-7.9,2.3-9.4c0-17.4-5.5-27.8-16.5-31.3l-30.6-17.3 c-2.6-1.6-4.7-2.4-6.3-2.5l-14.4-0.6c-28.4,5.4-48.5-0.1-60.2-16.5l-23.5-7.4c-4.1-1.3-11.1-5.5-21.2-12.8 c-9.9-7.3-14.4-12.5-13.2-15.6c1.2-3.1,2.4-7.3,3.5-12.8c1.1-5.5,1.9-9.3,2.5-11.2c0.5-1.9,0.8-3.6,0.8-5.1c0-1.7-0.7-5.8-2-12.2 c0.5,1,0.1-0.2-1.1-3.7c-0.5-1.6-2.2-5.6-5-11.9l-3-5.9l-2.7-5.7l-1.4-2.5c5.7-3.7,10.7-6.9,15.2-9.6l5.9-7.3 c-2.8-8.8-7.6-8.4-14.5,1.2c-5.1,0-7.8-7.5-8.3-22.5c-0.5-15-1.4-22.5-2.8-22.5l-11.6,0.7c-6.3,0.5-8.7-2.6-7.3-9.3 c-5.9-11.1-10.2-18.5-13.1-22.2l-0.2-1.6c-0.3-1.7-0.8-4-1.7-6.7c-0.9-2.7-2.3-4.7-4.2-6.1l-1.2-0.8c-1-1-2.5-1.7-4.4-2l-4.5-1.5 c-16.5-5.6-25-9.3-25.6-11c-2.2-6.1-3.3-11.4-3.3-15.9c0-0.6,1.5-2.6,4.5-5.9c3.4-3.7,6.1-5.6,8-5.6c2.3,0,4.1,2.5,5.2,7.5 c0.5,2.5,1,4.2,1.4,5.1c0.8,1.5,1.9,2.3,3.2,2.3c1.5,0,2.8-0.8,3.8-2.4c0.7-1.1,1.8-2.3,3.3-3.6l0.9-2c0.3-1-0.4-3.4-2.1-7.3 c-1.7-3.9-3.1-6.2-4-7.1c-0.9-0.9-1.3-2.2-1.2-3.7c3.7-1.3,3.9-6,0.5-14.2c-3.3-7.7-7-20.4-10.9-37.7l5.4-1.4 c2.5-0.7,8.8,1.1,18.9,5.3c10,4.1,20.3,4.9,30.7,2.3l27.1-7c7.5-2,13.2-3,16.9-3.1c5.4,1.9,10.9,6.1,16.7,12.5 c5.7,6.4,9.1,11.2,10.2,14.5c1.2,3.1,2.4,5.5,3.6,7.1c4.6-4.1,17.3,3.1,38,21.9c1.3-4.9,5.4-12.3,12.2-22.4l13,3.6l9.4,27.6l2.3,1.9 l3.4,2.8l3.7,2.3c-2.7,6.9-4.4,11-5.3,12.5l-0.4,0.6c-12.6,2.7-8.7,8.3,11.8,16.9c0.3-0.1,0.6-0.3,0.9-0.5 c1.5-0.7,4.8-4.8,10.1-12.3c5.2-7.5,7.2-12.6,6.1-15.4s0.1-4.6,3.8-5.6c3.6-1.1,7.6-2.9,12-5.6c4.3-2.8,7.5-4,9.6-3.5h0.1 c-0.3,0.3,0.3,3.4,1.6,9.1l0.3,1.6v0.2v-0.2l0.1,0.2l0.5,1.7l0.6,1.3l1.1,1.5l6.4,9.4l3.1,5c1.3,2.2,10.7,3.4,28.5,3.7 c1.4-1.5,4.6-3.5,9.7-5.9c5.1-2.4,6.4,3.8,3.9,18.8c-2.5,15-3.9,24-4.2,27c-0.3,3.1,0.1,4.4,1.3,4l9.9-3.5c6,3.6,9.1,5.8,9.3,6.5 c0.1,0.8,1.9,4.2,5.2,10.2c3.4,6,4.9,9.7,4.5,11.1c-0.4,1.4,1.2,7.1,4.8,17.3c3.7,1.2,8.4-0.8,14.4-6.1l16.5,7.7 c0.3,0.1,0.4,1.4,0.3,3.9c0,2.4,1.2,4.1,3.6,5.2c0.5,2.7,2.1,4.3,4.7,4.6c2.6,0.3,6.9-1.7,13-6.2c6.1-4.5,14.5-5.4,25-2.5l24.5-20.7 l13.6-11.7l9.5-7.7c5.1,1.9,8.4,3.1,9.9,3.4c1.5,0.3,3.2,1,5.1,2.3L782.4,189.4z" />
+<!--Gulf-->
+<path onmouseover="mapOver(4); return false;" onmouseout="mapOut(4); return false;" onclick="mapClicked(4); return false;" ontouchend="mapClicked(4); return false;" class="map_path" d="M637.9,462l0.1,0.5v0.1L637.9,462 M634.9,448.8l0.2,0.6L635,449 L634.9,448.8z M553.1,455.1l-0.4,0.3L512.4,550H329.2c-17.2-50.4-21.4-106.2-12.5-167.5l0.4-0.7v-1.7c0-1.9,0.3-3.9,0.9-6 c1.1-3.9,4.3-8.2,9.6-12.9c-4.2-5.8-3.9-11.1,0.8-16.1c4.7-4.9,8.5-9.7,11.4-14.5c4.8-7.7,8.3-12.5,10.6-14.7c3.1-5,4-9.4,2.9-13.4 c-1.1-3.9-4.6-7.2-10.3-9.8c-5.8-2.6-9.6-4.2-11.5-4.9s-3.1-1.6-3.4-2.7l4.5-8c1.5-3,2.6-4.8,3.3-5.5c2.1-2.3,5.2-4.8,9.3-7.4 l10.5-6.2l6.9-4.1l1.4,2.5l2.7,5.7l3,5.9c2.8,6.3,4.5,10.3,5,11.9c1.2,3.5,1.6,4.7,1.1,3.7c1.3,6.4,2,10.5,2,12.2 c0,1.5-0.3,3.2-0.8,5.1c-0.6,1.9-1.4,5.7-2.5,11.2c-1.1,5.5-2.3,9.7-3.5,12.8c-1.2,3,3.2,8.2,13.2,15.6c10,7.3,17.1,11.5,21.2,12.8 l23.5,7.4c11.7,16.4,31.8,21.9,60.2,16.5l14.4,0.6c1.6,0.1,3.7,0.9,6.3,2.5l30.6,17.3c10.9,3.5,16.5,14,16.5,31.3 c0,1.5-0.8,4.6-2.3,9.4l-0.4,1.1l-0.2,5.9c-0.3,3-0.7,5.3-1.4,7l0.2,1.5v0.1l0.3,0.9V455.1z M706.5,345.5 c-1.7,5.7-3.5,10.5-5.4,14.7c-1.4,3-2.1,4.8-2.1,5.3c0,1.7,1.1,5.2,3.4,10.5c2.3,5.5,5.1,11.1,8.4,16.7c5.9,9.9,11.2,16.5,16,19.8 l1.5,1.8l4.6,3.5c4.7,3.5,7.6,7,8.6,10.5l2.5,8.5c1.2,4.7,2.9,9.9,5.1,15.9c1.5,3.9,3.6,7.7,6.3,11.6c1.5,2.1,3,4.1,4.7,6.1l0.1-0.1 l4.2,4l0.5,0.5l1,1.4c2.5,2.1,8.4,5.7,17.6,10.6c2.6,1.4,4.8,2.7,6.6,3.9l6.7-0.3l0.1,0.6l-1.1,19.3l-10.6,33.9h-36.1L638,462.8 c-2.5-10.1-3.8-15.4-4.1-15.5l-2.7-1.6l-2.2-1.5c-3.1-2.2-6-4.6-8.9-7.1c-8.1-7.3-12.1-13.3-12.1-18.1c0-8.3,2.5-16.7,7.4-24.9 c1.3-2.1,3.2-5,5.7-8.5c2.1-2.8,3.3-4.7,3.8-5.8c1.5-3.3,3.4-8.3,5.6-14.9c1.3-10.4,3.9-14.9,7.8-13.3c3.9,1.6,6.2,3.1,6.8,4.5 c0.7,1.5,5.8,1.7,15.4,0.8c9.5-0.9,14.9-1.6,16.1-2.1c1.1-0.5,2.1-1.2,3-2.1c0.8-0.9,2.8-2.5,5.9-4.8c3.1-2.3,5.8-5.6,8.1-10 c6.3,5.1,9.7,7.7,10.2,7.8L706.5,345.5z" />
+<!--Great Lakes-->
+<path onmouseover="mapOver(5); return false;" onmouseout="mapOut(5); return false;" onclick="mapClicked(5); return false;" ontouchend="mapClicked(5); return false;" class="map_path" d="M570,119.7L570,119.7L570,119.7 M568,126.8L568,126.8z M556.1,107.6v0.2V107.6z M776,51l1.1,2.8c1.1,3.8,1.1,6.2,0.2,7.3c-1,1.1-1.6,2.1-1.7,3.1c-0.2,1-0.4,3.6-0.6,7.8l6.6,4.8 c5.5,3.9,10.4,7.8,14.9,11.6c3.4,2.9,5.8,6.7,7.1,11.5c10.5,8.2,15.8,14.1,15.5,17.5c-0.3,3.4-1.5,6.8-3.7,10.2 c-2.3,3.3-4,7.6-5.1,12.7c3.9,7.7,7.7,14,11.6,18.7c-8.7,2-16,5.8-21.6,11.5c-5.6,5.6-10.6,11.1-15.1,16.7c-0.9,0.5-1.8,1.2-2.8,2 l-1.3-1.2c-1.9-1.3-3.6-2-5.1-2.3c-1.5-0.3-4.8-1.5-9.9-3.4l-9.5,7.7L742.9,202l-24.5,20.7c-10.5-2.9-18.9-2-25,2.5 c-6,4.5-10.3,6.5-13,6.2c-2.6-0.3-4.2-1.9-4.7-4.6c-2.4-1.1-3.6-2.8-3.6-5.2c0.1-2.5,0-3.8-0.3-3.9l-16.5-7.7 c-5.9,5.3-10.6,7.3-14.4,6.1c-3.6-10.1-5.2-15.9-4.8-17.3c0.4-1.4-1.1-5.1-4.5-11.1c-3.3-6-5.1-9.4-5.2-10.2 c-0.2-0.7-3.3-2.9-9.3-6.5l-9.9,3.5c-1.2,0.4-1.6-0.9-1.3-4c0.3-3,1.7-12,4.2-27c2.5-15,1.2-21.2-3.9-18.8c-5.1,2.4-8.3,4.4-9.7,5.9 c-17.8-0.3-27.2-1.5-28.5-3.7l-3.1-5l-6.4-9.4l-1.1-1.5l-0.6-1.3l-0.5-1.7l-0.1-0.2l-0.3-1.6c-1.3-5.7-1.9-8.8-1.6-9.1 c0.5-0.6,2.3-1.7,5.4-3.3c6-3,13.3-5.5,21.8-7.6c8.4-2.1,13.9-4.5,16.3-7.1l-4.2-17.9c2.1-2.9,4.6-5.6,7.3-8.1l7.5-7.2 c1.3-1.4,3.3-2.4,5.8-3.1c0.9-0.4,3.1-0.7,6.4-0.8c3.3-0.2,6.2,1,8.7,3.7l10.1,10.5c4.2,4.4,7,7.2,8.5,8.5l7.3,4.2 c4.7,2.8,11,4.4,19,4.9c7.8,0.4,13.7-0.5,17.6-2.6c3.9-2.1,8.2-3.9,12.9-5.2c4.8-1.3,8-6.1,9.7-14.6c1.6-8.4,8.3-13.2,20.3-14.1 c8.1,13.4,12.8,18.6,14.3,15.9c1.5-2.4,3.2-4.1,4.9-5c1.7-0.9,2.6-1.3,2.8-1.2l7.1-0.8l1.2,0.2l5,0.2c1.3,0,2.4,0.5,3.5,1.4 C774.8,48.7,775.6,49.8,776,51z" />
+<!--East Coast-->
+<path onmouseover="mapOver(6); return false;" onmouseout="mapOut(6); return false;" onclick="mapClicked(6); return false;" ontouchend="mapClicked(6); return false;" class="map_path" d="M797,490.6l0.6-0.9C896.8,262.3,944,106.8,939.1,23.2V0H783.9 L780,5.8l-4.8,6.6c-1.3,1.7-1.4,3.2-0.5,4.6c0.9,1.3,2.6,4.9,5.3,10.6c2.6,5.7,3.9,10.3,3.9,13.8c0,2.7-0.5,4.6-1.5,5.7 c-0.9,1-3,2.3-6.4,3.8l1.1,2.8c1.1,3.8,1.1,6.2,0.2,7.3c-1,1.1-1.6,2.1-1.7,3.1c-0.2,1-0.4,3.6-0.6,7.8l6.6,4.8 c5.5,3.9,10.4,7.8,14.9,11.6c3.4,2.9,5.8,6.7,7.1,11.5c10.5,8.2,15.8,14.1,15.5,17.5c-0.3,3.4-1.5,6.8-3.7,10.2 c-2.3,3.3-4,7.6-5.1,12.7c3.9,7.7,7.7,14,11.6,18.7c-8.7,2-16,5.8-21.6,11.5c-5.6,5.6-10.6,11.1-15.1,16.7c-0.9,0.5-1.8,1.2-2.8,2 c0.8,1.1,1.5,2.7,2.1,5c0.7,2.3-2.9,3.6-10.8,3.7c-4.7-1.1-7.7-0.5-9.2,1.7c-1.5,2.1-2.4,4.9-2.9,8.4c-0.5,3.5,2,7.5,7.6,12 l-3.7,5.8c-2.2,5.7-4.1,14.4-5.7,25.7c-1.5,11.3-4.1,19.9-7.6,25.7c0.3,7.3,2,12.1,5.3,14.6c-8.5,8.3-14.9,14.4-19,18.1 c-4.1,3.6-6.8,10-8.3,19.2l-7,3.7c-1.9,1-4.1,1.9-6.6,2.8c-2.5,0.9-4.3,2-5.3,3.2l-2.1,2.5c-0.5,0.5-1.3,1.8-2.5,3.9 c-1.7,5.7-3.5,10.5-5.4,14.7c-1.4,3-2.1,4.8-2.1,5.3c0,1.7,1.1,5.2,3.4,10.5c2.3,5.5,5.1,11.1,8.4,16.7c5.9,9.9,11.2,16.5,16,19.8 l1.5,1.8l4.6,3.5c4.7,3.5,7.6,7,8.6,10.5l2.5,8.5c1.2,4.7,2.9,9.9,5.1,15.9c1.5,3.9,3.6,7.7,6.3,11.6c1.5,2.1,3,4.1,4.7,6.1l0.1-0.1 l4.2,4l0.5,0.5l1,1.4c2.5,2.1,8.4,5.7,17.6,10.6c2.6,1.4,4.8,2.7,6.6,3.9L797,490.6" />
+<!--Hudson-->
+<path onmouseover="mapOver(7); return false;" onmouseout="mapOut(7); return false;" onclick="mapClicked(7); return false;" ontouchend="mapClicked(7); return false;" class="map_path" d="M783.9,0L780,5.8l-4.8,6.6c-1.3,1.7-1.4,3.2-0.5,4.6c0.9,1.3,2.6,4.9,5.3,10.6 c2.6,5.7,3.9,10.3,3.9,13.8c0,2.7-0.5,4.6-1.5,5.7c-0.9,1-3,2.3-6.4,3.8c-0.4-1.2-1.2-2.3-2.3-3.2c-1.1-0.9-2.2-1.4-3.5-1.4l-5-0.2 l-1.2-0.2l-7.1,0.8c-0.2-0.1-1.1,0.3-2.8,1.2c-1.7,0.9-3.4,2.6-4.9,5c-1.4,2.7-6.1-2.5-14.3-15.9c-11.9,0.9-18.7,5.6-20.3,14.1 c-1.7,8.4-4.9,13.3-9.7,14.6c-4.7,1.3-9,3.1-12.9,5.2c-3.9,2.1-9.7,3-17.6,2.6c-7.9-0.5-14.3-2.1-19-4.9l-7.3-4.2 c-1.5-1.3-4.3-4.1-8.5-8.5l-10.1-10.5c-2.5-2.7-5.4-3.9-8.7-3.7c-3.3,0.1-5.5,0.4-6.4,0.8c-2.5,0.7-4.5,1.7-5.8,3.1l-7.5,7.2 c-2.7,2.5-5.2,5.2-7.3,8.1l4.2,17.9c-2.4,2.6-7.8,5-16.3,7.1c-8.5,2.1-15.8,4.6-21.8,7.6c-3.1,1.6-4.9,2.7-5.4,3.3h-0.1 c-2.1-0.5-5.3,0.7-9.6,3.5c-4.4,2.7-8.4,4.5-12,5.6c-3.7,1-4.9,2.9-3.8,5.6c1.1,2.7-0.9,7.8-6.1,15.4c-5.3,7.5-8.6,11.6-10.1,12.3 c-0.3,0.2-0.6,0.4-0.9,0.5c-20.6-8.5-24.5-14.2-11.8-16.9l0.4-0.6c0.9-1.5,2.6-5.6,5.3-12.5l-3.7-2.3l-3.4-2.8l-2.3-1.9l-9.4-27.6 l-13-3.6c-6.8,10-10.9,17.5-12.2,22.4c-20.8-18.8-33.4-26-38-21.9c-1.2-1.6-2.4-4-3.6-7.1c-1.1-3.2-4.5-8-10.2-14.5 c-5.7-6.4-11.2-10.6-16.7-12.5c-3.7,0.1-9.3,1.1-16.9,3.1l-27.1,7c-10.4,2.6-20.7,1.8-30.7-2.3c-10-4.2-16.4-6-18.9-5.3l-5.4,1.4 l-3.6,0.2l-2.1-0.1c-0.5-2.6-1.6-6.5-3.3-11.6l-3.9-11.5l-0.9-6.9c-0.2-1.3-0.6-2.5-1.1-3.6l-0.4-1.9L277,0H783.9" />
+					</svg>
+				</div>
+				<div class="clearL"></div>
+			</div>
+			<div class="clearL"></div>
+		</div>
+	</div>
+    
+	<div id="module_nav">
+		<div id="module_instrux"></div>
+		<div id="module_btn1">
+			<div id="module_next1" class="floatPosL" style="width:107px;"><a href="#" onclick="moduleNext(); return false;" onmouseover="nextOver(); return false;" onmouseout="nextOut(); return false;" ontouchstart="nextOver(); return false;"><img id="btn_next1" name="btn_next1" src="images/btn_next1.png" width="76" height="30" alt="Next" /></a></div>
+			<div class="clearL"></div>
+		</div>
+		<div class="clearL"></div>
+	</div>
+
+	<div class="clearL"></div>
+</div>
+    
+<div id="soundPlayer">
+	<audio id="watershed_intro1" autobuffer="false" controls="">
+		<source src="audio/watershed_intro1.mp3" type="audio/mpeg" />
+		<source src="audio/watershed_intro1.ogg" type="audio/ogg" />
+        Your browser does not support mp3 or ogg files.
+	</audio>
+</div>
+</body>
+</html>
